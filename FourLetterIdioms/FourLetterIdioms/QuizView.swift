@@ -158,13 +158,15 @@ struct QuizView: View {
                     .padding()
                 }
                 .padding()
-                .background(Color.white)
+                .background(RoundedRectangle(cornerRadius: 10).fill(Color.white.opacity(0.8)))
             }
             if incorrect {
                 VStack {
                     Image(systemName: "xmark")
                         .font(.system(size: 200))
                         .foregroundColor(.red)
+                    Text("答え \(result)")
+                        .font(.system(size: 30))
                     
                     Button {
                         showQuiz()
@@ -174,7 +176,7 @@ struct QuizView: View {
                     .padding()
                 }
                 .padding()
-                .background(Color.white)
+                .background(RoundedRectangle(cornerRadius: 10).fill(Color.white.opacity(0.8)))
             }
             
         } // ZStack
@@ -186,6 +188,10 @@ struct QuizView: View {
     
     private func showQuiz() {
         guard let quiz = loadCsvFile().randomElement() else {
+            return
+        }
+        if quiz.count < 10 {
+            showQuiz()
             return
         }
         question = quiz[0]
